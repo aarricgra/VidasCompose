@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,33 +75,46 @@ class MainActivity : ComponentActivity() {
             ) {
                 //Linea Venenos
                 lineaVenenos(onAddClick = {
-                    vn1+=1
+                    vn1 += 1
                 }, onRemoveClick = {
-                    if(vn1>0){
-                        vn1-=1
+                    if (vn1 > 0) {
+                        vn1 -= 1
                     }
                 })
 
 
                 //Linea vidas y marcador
-                lineaMarcador(hp1,vn1,Modifier.fillMaxWidth().weight(1f),
-                    onAddClick = {hp1+=1},
+                lineaMarcador(hp1, vn1,
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    onAddClick = { hp1 += 1 },
                     onRemoveClick = {
-                        if(hp1>0){
-                            hp1-=1
+                        if (hp1 > 0) {
+                            hp1 -= 1
                         }
                     }
                 )
 
-                //Linea transferir
-                lineaTransferir(1,
+                Button(
                     onClick = {
-                        if(hp1>0){
-                            hp1-=1
-                            hp2+=1
-                        }
-                    }
-                )
+                              if(hp1>0){
+                                  hp1-=1
+                                  hp2+=1
+                              }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth().padding(vertical = 8.dp),
+                    shape = RectangleShape
+                ) {
+
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Transferir a jugador2",
+                            modifier = Modifier.size(50.dp)
+                        )
+
+                }
             }
 
 
@@ -110,33 +124,46 @@ class MainActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                //Linea transferir
-                lineaTransferir(2,
+                Button(
                     onClick = {
-                        if(hp2>0){
-                            hp2-=1
-                            hp1+=1
-                        }
-                    }
-                )
+                              if(hp2>0){
+                                  hp2-=1
+                                  hp1+=1
+                              }
+                              },
+                    modifier = Modifier
+                        .fillMaxWidth().padding(vertical = 8.dp),
+                    shape = RectangleShape
+                ) {
+
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowUp,
+                            contentDescription = "Transferir a jugador1",
+                            modifier = Modifier.size(50.dp)
+                        )
+
+                }
 
 
                 //Linea vidas y marcador
-                lineaMarcador(hp2,vn2,Modifier.fillMaxWidth().weight(1f),
-                    onAddClick = {hp2+=1},
+                lineaMarcador(hp2, vn2,
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    onAddClick = { hp2 += 1 },
                     onRemoveClick = {
-                        if(hp2>0){
-                            hp2-=1
+                        if (hp2 > 0) {
+                            hp2 -= 1
                         }
                     }
                 )
 
                 //Linea Venenos
                 lineaVenenos(onAddClick = {
-                    vn2+=1
+                    vn2 += 1
                 }, onRemoveClick = {
-                    if(vn2>0){
-                        vn2-=1
+                    if (vn2 > 0) {
+                        vn2 -= 1
                     }
                 })
             }
@@ -146,40 +173,25 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun lineaTransferir(origen:Int,onClick: () -> Unit) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
-        ) {
-            IconButton(onClick = { onClick },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(223, 223, 223, 255))
-            ) {
-                if(origen==1){
-                    Icon(imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = "Transferir a jugador2",
-                        modifier = Modifier.size(70.dp))
-                }else{
-                    Icon(imageVector = Icons.Default.KeyboardArrowUp,
-                        contentDescription = "Transferir a jugador1",
-                        modifier = Modifier.size(70.dp))
-                }
-            }
-        }
+    private fun lineaTransferir(origen: Int, onClickTransfer: () -> Unit) {
+
+
     }
 
     @Composable
-    private fun lineaVenenos(onAddClick: () -> Unit, onRemoveClick:()->Unit) {
+    private fun lineaVenenos(onAddClick: () -> Unit, onRemoveClick: () -> Unit) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = onAddClick,
+            Button(
+                onClick = onAddClick,
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(text = "Veneno +", color = Color.Green)
             }
-            Button(onClick = onRemoveClick,
+            Button(
+                onClick = onRemoveClick,
                 modifier = Modifier.padding(8.dp)
             ) {
                 Text(text = "Veneno -", color = Color.Green)
@@ -189,18 +201,25 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun lineaMarcador(hp: Int, vn: Int,mod:Modifier, onAddClick: () -> Unit, onRemoveClick:()->Unit) {
+    private fun lineaMarcador(
+        hp: Int,
+        vn: Int,
+        mod: Modifier,
+        onAddClick: () -> Unit,
+        onRemoveClick: () -> Unit
+    ) {
         Row(
             modifier = mod,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = onAddClick
-                ,modifier = Modifier
+            IconButton(
+                onClick = onAddClick, modifier = Modifier
                     .size(70.dp)
                     .padding(8.dp)
             ) {
-                Icon(imageVector = Icons.Default.Favorite,
-                    contentDescription ="Sumar Vida",
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Sumar Vida",
                     modifier = Modifier.size(70.dp),
                     tint = Color.Red
                 )
@@ -211,13 +230,15 @@ class MainActivity : ComponentActivity() {
                 textAlign = TextAlign.Center,
                 fontSize = 32.sp
             )
-            IconButton(onClick = onRemoveClick,
+            IconButton(
+                onClick = onRemoveClick,
                 modifier = Modifier
                     .size(70.dp)
                     .padding(8.dp)
             ) {
-                Icon(imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription ="Restar Vida" ,
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Restar Vida",
                     modifier = Modifier
                         .size(70.dp),
                     tint = Color.Red
