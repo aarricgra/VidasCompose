@@ -172,11 +172,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    private fun lineaTransferir(origen: Int, onClickTransfer: () -> Unit) {
-
-
-    }
 
     @Composable
     private fun lineaVenenos(onAddClick: () -> Unit, onRemoveClick: () -> Unit) {
